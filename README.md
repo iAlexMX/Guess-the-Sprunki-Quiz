@@ -29,5 +29,7 @@ https://www.roblox.com/es/games/132086995142789/Guess-the-Sprunki-Quiz
 
 ---
 
+## 🧑‍💻 Autor
+
 Desarrollado por **iAlexMX**  
 🥇 Desarrollado para adivinar automaticamente las puertas correctas.
