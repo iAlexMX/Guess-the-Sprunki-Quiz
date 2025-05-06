@@ -2,7 +2,7 @@
 
 Este script está diseñado para mostrar marcadores ESP (flechas indicadoras) sobre los niveles y adivinar cual es el correcto.
 
-<pre>loadstring(game:HttpGet("https://raw.githubusercontent.com/iAlexMX/Guess-the-Sprunki-Quiz/refs/heads/main/Guess%20the%20Sprunki%20Quiz%20by%20iAlexMX.lua"))()</pre>
+<pre>loadstring(game:HttpGet("https://raw.githubusercontent.com/iAlexMX/Guess-the-Sprunki-Quiz/refs/heads/main/Guess%20the%20Sprunki%20Quiz%20by%20AlexScriptX.lua"))()</pre>
 
 ---
 
