@@ -1,12 +1,12 @@
 local player = game:GetService("Players").LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
-local maxDistance = 50 -- Distancia máxima para mostrar el ESP
-local checkInterval = 0.2 -- Intervalo de verificación en segundos
+local maxDistance = 50
+local checkInterval = 0.2
 
-local activeESPs = {} -- Tabla para rastrear los ESPs activos
+local activeESPs = {}
 
 local function createESP(part, levelNumber)
-    if activeESPs[part] then return end -- Si ya tiene ESP, no crear otro
+    if activeESPs[part] then return end
     
     local BillboardGui = Instance.new("BillboardGui")
     local TextLabel = Instance.new("TextLabel")
@@ -17,7 +17,7 @@ local function createESP(part, levelNumber)
     BillboardGui.Size = UDim2.new(0, 100, 0, 100)
     BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
     BillboardGui.AlwaysOnTop = true
-    BillboardGui.Enabled = false -- Inicialmente desactivado
+    BillboardGui.Enabled = false
     
     TextLabel.Parent = BillboardGui
     TextLabel.BackgroundTransparency = 1
@@ -44,12 +44,11 @@ local function updateESPVisibility()
             local distance = (playerPosition - part.Position).Magnitude
             esp.Enabled = distance <= maxDistance
             
-            -- Opcional: Cambiar transparencia según la distancia
             local transparency = math.clamp((distance / maxDistance) - 0.5, 0, 0.8)
             esp.TextLabel.TextTransparency = transparency
             esp.TextLabel.TextStrokeTransparency = transparency
         else
-            -- Limpiar ESPs de objetos que ya no existen
+
             esp:Destroy()
             activeESPs[part] = nil
         end
@@ -57,22 +56,22 @@ local function updateESPVisibility()
 end
 
 local function scanWorkspace()
-    -- Verificar si existe level_glasses
+
     if not workspace:FindFirstChild("level_glasses") then
         warn("No se encontró level_glasses en el workspace")
         return
     end
     
-    -- Recorrer todas las carpetas dentro de level_glasses
+
     for _, folder in ipairs(workspace.level_glasses:GetChildren()) do
         if folder:IsA("Folder") then
-            -- Buscar el modelo llamado "glasses"
+
             local glassesModel = folder:FindFirstChild("glasses")
             if glassesModel then
-                -- Buscar objetos que comiencen con "lvl" ignorando "killglass"
+
                 for _, obj in ipairs(glassesModel:GetChildren()) do
                     if obj:IsA("BasePart") and obj.Name:lower():find("^lvl") and not obj.Name:lower():find("killglass") then
-                        -- Extraer el número de nivel del nombre
+
                         local levelNumber = obj.Name:match("%d+") or "?"
                         createESP(obj, levelNumber)
                     end
@@ -82,17 +81,15 @@ local function scanWorkspace()
     end
 end
 
--- Conexión de eventos para actualización de personaje
+
 player.CharacterAdded:Connect(function(newChar)
     character = newChar
-    -- Esperar a que el HumanoidRootPart exista
+
     repeat task.wait() until newChar:FindFirstChild("HumanoidRootPart")
 end)
 
--- Escanear inicialmente
 scanWorkspace()
 
--- Bucle de actualización de visibilidad
 while true do
     updateESPVisibility()
     task.wait(checkInterval)
